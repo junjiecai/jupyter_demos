@@ -1,0 +1,6 @@
+Title: Sympy笔记I
+Date: 2017-01-26
+Modified: 2017-01-26
+Tags: python
+Category:jupyter_labs
+Summary: Sympy是一个Python下功能强大的符号计算库。这系列笔记的第一部分，涉及基本的Sympy介绍，各种变量定义和数学表达式的化简操作。

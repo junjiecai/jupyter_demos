@@ -1,0 +1,6 @@
+Title: Sympy笔记III
+Date: 2017-01-30
+Modified: 2017-01-30
+Tags: python
+Category:jupyter_labs
+Summary: Sympy是一个Python下功能强大的符号计算库。这篇文章是教程的第三部分，涉及矩阵，等式求解，线性系统求解和非线性系统求解。
