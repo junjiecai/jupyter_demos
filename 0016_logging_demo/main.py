@@ -1,49 +1,53 @@
-import argparse
-import logging
-from logging.handlers import RotatingFileHandler
+import os
+import sys
+from argparse import ArgumentParser
 
-from logging_demo.cals import cal
+from loguru import logger
 
-
-def create_logger(level):
-    logger = logging.getLogger('test')
-    logger.setLevel(level)
-
-    file_handler = RotatingFileHandler('commong_log.txt', maxBytes=1024 * 2, backupCount=2, mode='w')
-    file_handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    logger.addHandler(file_handler)
-
-    error_handler = logging.FileHandler('error_log.`txt', mode='w')
-    error_handler.setLevel(logging.ERROR)
-    formatter = logging.Formatter('%(asctime)s - %(name)s -  %(message)s')
-    error_handler.setFormatter(formatter)
-    logger.addHandler(error_handler)
-
-    return logger
+from calculation import add, square
 
 
-def main(logging_level):
-    logger = create_logger(logging_level)
-    logger.info('Start looping')
+def parse_arguments():
+    parser = ArgumentParser()
 
-    for i in range(1000)[::-1]:
-        logger.debug(i)
-        try:
-            cal(i)
-        except Exception as e:
-            logger.error('Wow! error orrcured', exc_info=True)
+    parser.add_argument('--debug', dest='debug', action='store_true')
+    parser.set_defaults(debug=False)
 
-    logger.info('End of loop')
+    return parser.parse_args()
+
+
+def set_logger(debug):
+    if debug:
+        logging_level = 'DEBUG'
+    else:
+        logging_level = 'INFO'
+
+    # 移除原始的logger配置
+    logger.remove()
+
+    # 添加目标为sys.stdout的logger handler
+    logger.add(
+        sys.stdout,
+        level=logging_level,
+        colorize=True,
+        format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> <level>{message}</level>"
+    )
+
+    # 添加目标为log.txt的logger handler
+    logger.add(
+        "{}/log.txt".format(os.path.dirname(os.path.abspath(__file__))),
+        level=logging_level,
+        colorize=True,
+        format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> <level>{message}</level>",
+        rotation='1mb',  # 如果想保留最近一段时间的记录可以用， retention="10 days"
+        serialize=True
+    )
 
 
 if __name__ == '__main__':
-    # define
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--logging_level', type=int)
+    args = parse_arguments()
 
-    args = parser.parse_args()
-    logging_level = args.logging_level
+    set_logger(args.debug)
 
-    main(logging_level)
+    z = add(2, 4)
+    square(z)
