@@ -7,7 +7,7 @@ class DataExplore:
         pass
 
     def update_config(self, configs):
-        self.configs.update(configs)
+        self.configs._update(configs)
 
     def indivisual_analyse(self):
         pass
