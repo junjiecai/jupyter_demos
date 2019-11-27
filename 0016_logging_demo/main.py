@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 
 from loguru import logger
 
-from calculation import add, square
+from .calculation import add, square
 
 
 def parse_arguments():

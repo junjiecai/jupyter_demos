@@ -10,10 +10,9 @@ class Child(Parent):
     pass
 
 
-
 # 区别instance of class和class
 d: Parent = Child()
 
-d: Parent = Child
+d_1: Parent = Child
 
-d: Type[Parent] = Child
+d_2: Type[Parent] = Child
