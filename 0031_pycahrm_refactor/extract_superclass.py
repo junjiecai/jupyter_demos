@@ -1,5 +1,7 @@
 # Extract __radd__, __sub__, __rsub__ into Mixin (Extract Super Class)
 
+from hyperopt import fmin
+
 from collections import namedtuple
 
 
